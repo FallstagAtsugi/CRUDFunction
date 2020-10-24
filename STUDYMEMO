@@ -1,0 +1,40 @@
+
+
+
+■app
+TaskForm
+       @Digits(integer = 整数部〇桁, fraction = 小数部〇桁)
+       NotBlankとかの違い　https://qiita.com/NagaokaKenichi/items/67a63c91a7db8717fc7d
+★task
+＠RequestParamはhiddenで投げられたものをここで受けとる
+
+
+■config
+Q.@InitBinderって何してるの？？
+
+@InitBinderを使ってアノテートしたメソッドは、
+@MVCがリクエストパラメータのバインディングに利用する
+DataBinderインスタンスにアクセスできます。
+各コントローラに必要なカスタマイズが可能になります
+
+Q型変換の設定方法:registerCustomEditor
+
+String.class, new StringTrimmerEditor(true)
+StringTrimmerEditor:文字列をtrimします。空文字はnull に変換されます。デフォルトでは登録されていません。
+
+
+■entity
+TaskTypeをTaskに入れちゃいたい
+
+■repository
+DBアクセスするクラスはリポジトリと呼び、@Repositoryクラスアノテーションを付与
+jdbctemplateのupdateメソッドを使用して、『追加、更新、削除』を行う。※第二引数で具体的なプリペアードステートメントの値を指定している
+
+
+■View
+更新処理も、新規挿入もこのindex.html１つで実装する（今回の肝）
+
+
+■data.sql
+Spring起動時に自動で実行されるInsert文
+
