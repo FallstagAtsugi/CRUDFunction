@@ -47,6 +47,9 @@
 </div>
 
 <p th:unless="${taskForm.isNewTask}"><a href="#" th:href="@{/task}">戻る</a></p>
-
+<p></p>
+<form method="post" th:action="@{/logout}">
+    <button type="submit">ログアウト</button>
+</form>
 </body>
 </html>
