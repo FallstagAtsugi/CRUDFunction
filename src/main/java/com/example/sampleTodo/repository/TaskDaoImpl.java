@@ -2,7 +2,7 @@ package com.example.sampleTodo.repository;
 
 import com.example.sampleTodo.entity.Task;
 import com.example.sampleTodo.entity.TaskType;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -17,10 +17,14 @@ import java.util.Optional;
  */
 
 @Repository
-@RequiredArgsConstructor
 public class TaskDaoImpl implements TaskDao {
 
     private final JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public TaskDaoImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public List<Task> findAll() {    //Listを返すもの　複製を返す
@@ -81,7 +85,6 @@ public class TaskDaoImpl implements TaskDao {
         type.setId((int) result.get("type_id"));
         type.setType((String) result.get("type"));
         type.setComment((String) result.get("comment"));
-
         task.setTaskType(type);
 
         //taskをOptionalでラップする
@@ -92,13 +95,13 @@ public class TaskDaoImpl implements TaskDao {
 
     @Override
     public void insert(Task task) {
-        jdbcTemplate.update("INSERT INTO task(user_id, type_id, title, detail, deadline) VALUES(?, ?, ?, ?, ?)",
+        jdbcTemplate.update("INSERT INTO task(user_id, type_id, title, detail, deadline) VALUES(?, ?, ?, ?,?)",
                 task.getUserId(), task.getTypeId(), task.getTitle(), task.getDetail(), task.getDeadline());
     }
 
     @Override
     public int update(Task task) {
-        return jdbcTemplate.update("UPDATE task SET type_id = ?, title = ?, detail = ?, deadline = ? WHERE id = ?",
+        return jdbcTemplate.update("UPDATE task SET type_id = ?, title = ?, detail = ?,deadline = ? WHERE id = ?",
                 task.getTypeId(), task.getTitle(), task.getDetail(), task.getDeadline(), task.getId());
     }
 
